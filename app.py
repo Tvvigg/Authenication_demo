@@ -6,13 +6,14 @@ from werkzeug.exceptions import Unauthorized
 
 from models import connect_db, db, User, Feedback
 from forms import RegisterForm, LoginForm, FeedbackForm, DeleteForm
+from secret import secret_key
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql:///flask-feedback"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql:///flask_feedback"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
-app.config['SECRET_KEY'] = "shhhhh"
+app.config['SECRET_KEY'] = secret_key
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 toolbar = DebugToolbarExtension(app)
@@ -24,7 +25,7 @@ connect_db(app)
 def homepage():
     """Homepage of site; redirect to register."""
 
-    return redirect("/register")
+    return redirect("/login")
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -101,7 +102,7 @@ def show_user(username):
 
 @app.route("/users/<username>/delete", methods=["POST"])
 def remove_user(username):
-    """Remove user nad redirect to login."""
+    """Remove user and redirect to login."""
 
     if "username" not in session or username != session['username']:
         raise Unauthorized()

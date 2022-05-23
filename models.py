@@ -1,4 +1,4 @@
-"""Models for flask-feedback."""
+"""Models for flask_feedback."""
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
